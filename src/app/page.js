@@ -1,12 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
     return (
-        <div className="relative isolate">
+        <div className="relative">
             {/* Hero section */}
             <div className="relative pt-14">
                 <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
@@ -14,7 +12,7 @@ export default function Home() {
                 </div>
 
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+                    <div className="mx-auto max-w-2xl py-24 sm:py-32">
                         <div className="text-center">
                             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Smart EV Charging Solutions</h1>
                             <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -28,7 +26,7 @@ export default function Home() {
                                 >
                                     View Schemes
                                 </Link>
-                                <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900">
+                                <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600">
                                     Learn more <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
@@ -36,27 +34,27 @@ export default function Home() {
                     </div>
 
                     {/* Feature section */}
-                    <div className="mx-auto mt-32 max-w-7xl sm:mt-56">
-                        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
-                            <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100">
+                    <div className="mx-auto max-w-7xl sm:mt-24 text-gray-700 pb-16">
+                        <div className="grid lg:max-w-5xl lg:w-full lg:grid-cols-3 lg:text-left mx-auto place-items-center gap-8 px-4 mb-16">
+                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Smart Booking <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>
-                                <p className="m-0 max-w-[30ch] text-sm opacity-50">Book your charging slots with just a few clicks.</p>
+                                <p className="m-0 text-sm opacity-50 mx-auto">Book your charging slots with just a few clicks.</p>
                             </div>
 
-                            <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100">
+                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Compare Schemes <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>
-                                <p className="m-0 max-w-[30ch] text-sm opacity-50">Compare different charging schemes and find the best fit.</p>
+                                <p className="m-0 text-sm opacity-50 mx-auto">Compare different charging schemes and find the best fit.</p>
                             </div>
 
-                            <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100">
+                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Profile Management <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>
-                                <p className="m-0 max-w-[30ch] text-sm opacity-50">Manage your profile and track your charging history.</p>
+                                <p className="m-0 text-sm opacity-50 mx-auto">Manage your profile and track your charging history.</p>
                             </div>
                         </div>
                     </div>
