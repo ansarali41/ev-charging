@@ -75,6 +75,9 @@ const Navbar = () => {
                                 <Link href="/booking" className="inline-flex items-center px-1 pt-1 text-gray-500 hover:text-gray-900">
                                     Book Now
                                 </Link>
+                                <Link href="/bookings" className="inline-flex items-center px-1 pt-1 text-gray-500 hover:text-gray-900">
+                                    My Bookings
+                                </Link>
                                 <Link href="/profile" className="inline-flex items-center px-1 pt-1 text-gray-500 hover:text-gray-900">
                                     Profile
                                 </Link>

@@ -2,7 +2,8 @@
 
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/firebase/config';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
+import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 
 export default function Booking() {
@@ -40,6 +41,7 @@ export default function Booking() {
             setBookings(bookedSlots);
         } catch (error) {
             console.error('Error loading bookings:', error);
+            toast.error('Failed to load bookings. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -47,10 +49,16 @@ export default function Booking() {
 
     const handleBooking = async () => {
         if (!selectedDate || !selectedTime) {
-            alert('Please select both date and time');
+            toast.error('Please select both date and time');
             return;
         }
 
+        if (!user) {
+            toast.error('Please sign in to book a slot');
+            return;
+        }
+
+        const toastId = toast.loading('Creating your booking...');
         setIsBooking(true);
 
         try {
@@ -58,24 +66,43 @@ export default function Booking() {
             const isSlotBooked = bookings.some(booking => booking.time === selectedTime);
 
             if (isSlotBooked) {
-                alert('This slot is already booked. Please select another time.');
+                toast.error('This slot is already booked. Please select another time.', { id: toastId });
                 return;
             }
+
+            // Format the date to be more readable
+            const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
 
             // Add new booking
             await addDoc(collection(db, 'bookings'), {
                 userId: user.uid,
-                date: selectedDate,
+                userEmail: user.email,
+                date: formattedDate,
                 time: selectedTime,
-                createdAt: new Date().toISOString(),
+                createdAt: serverTimestamp(),
+                duration: 30, // 30 minutes slot
+                stationName: 'EV Charging Station 1' // Default station name
             });
 
-            alert('Booking successful!');
+            toast.success('Booking successful!', { id: toastId });
             loadBookings(); // Reload bookings
             setSelectedTime(''); // Reset selected time
         } catch (error) {
             console.error('Error creating booking:', error);
-            alert('Error creating booking. Please try again.');
+            let errorMessage = 'Error creating booking. Please try again.';
+            
+            // Handle specific Firebase errors
+            if (error.code === 'permission-denied') {
+                errorMessage = 'You do not have permission to make bookings.';
+            } else if (error.code === 'unavailable') {
+                errorMessage = 'The service is currently unavailable. Please try again later.';
+            }
+            
+            toast.error(errorMessage, { id: toastId });
         } finally {
             setIsBooking(false);
         }
@@ -95,6 +122,7 @@ export default function Booking() {
 
     return (
         <div className="py-24 sm:py-32">
+            <Toaster position="top-right" />
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h2 className="text-base font-semibold leading-7 text-blue-600">Booking</h2>
