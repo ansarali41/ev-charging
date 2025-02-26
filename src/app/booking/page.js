@@ -3,8 +3,8 @@
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/firebase/config';
 import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
-import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Booking() {
     const { user } = useAuth();
@@ -23,6 +23,7 @@ export default function Booking() {
 
     useEffect(() => {
         if (user && selectedDate) {
+            setIsLoading(true); // Set loading to true when date changes
             loadBookings();
         }
     }, [user, selectedDate]);
@@ -30,7 +31,13 @@ export default function Booking() {
     const loadBookings = async () => {
         try {
             const bookingsRef = collection(db, 'bookings');
-            const q = query(bookingsRef, where('date', '==', selectedDate));
+            // Format the date to match the stored format
+            const formattedQueryDate = new Date(selectedDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            const q = query(bookingsRef, where('date', '==', formattedQueryDate));
             const querySnapshot = await getDocs(q);
 
             const bookedSlots = querySnapshot.docs.map(doc => ({
@@ -74,7 +81,7 @@ export default function Booking() {
             const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric'
+                day: 'numeric',
             });
 
             // Add new booking
@@ -85,7 +92,7 @@ export default function Booking() {
                 time: selectedTime,
                 createdAt: serverTimestamp(),
                 duration: 30, // 30 minutes slot
-                stationName: 'EV Charging Station 1' // Default station name
+                stationName: 'EV Charging Station 1', // Default station name
             });
 
             toast.success('Booking successful!', { id: toastId });
@@ -94,14 +101,14 @@ export default function Booking() {
         } catch (error) {
             console.error('Error creating booking:', error);
             let errorMessage = 'Error creating booking. Please try again.';
-            
+
             // Handle specific Firebase errors
             if (error.code === 'permission-denied') {
                 errorMessage = 'You do not have permission to make bookings.';
             } else if (error.code === 'unavailable') {
                 errorMessage = 'The service is currently unavailable. Please try again later.';
             }
-            
+
             toast.error(errorMessage, { id: toastId });
         } finally {
             setIsBooking(false);
@@ -146,7 +153,7 @@ export default function Booking() {
                                             value={selectedDate}
                                             onChange={e => setSelectedDate(e.target.value)}
                                             min={new Date().toISOString().split('T')[0]}
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
                                         />
                                     </div>
                                 </div>
@@ -155,31 +162,38 @@ export default function Booking() {
                             {selectedDate && (
                                 <div className="mt-10">
                                     <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Available Time Slots</h3>
-                                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                                        {timeSlots.map(time => {
-                                            const booked = isSlotBooked(time);
-                                            return (
-                                                <button
-                                                    key={time}
-                                                    onClick={() => !booked && setSelectedTime(time)}
-                                                    disabled={booked}
-                                                    className={`
-                            rounded-md px-3 py-2 text-sm font-semibold shadow-sm
-                            ${
-                                booked
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : time === selectedTime
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
-                            }
-                          `}
-                                                >
-                                                    {time}
-                                                    {booked && ' (Booked)'}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
+                                    {isLoading ? (
+                                        <div className="flex items-center justify-center py-10">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                            <span className="ml-3 text-gray-600">Checking available slots...</span>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                                            {timeSlots.map(time => {
+                                                const booked = isSlotBooked(time);
+                                                return (
+                                                    <button
+                                                        key={time}
+                                                        onClick={() => !booked && setSelectedTime(time)}
+                                                        disabled={booked}
+                                                        className={`
+                                                            rounded-md px-3 py-2 text-sm font-semibold shadow-sm
+                                                            ${
+                                                                booked
+                                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                                    : time === selectedTime
+                                                                    ? 'bg-blue-600 text-white'
+                                                                    : 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                                                            }
+                                                        `}
+                                                    >
+                                                        {time}
+                                                        {booked && ' (Booked)'}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>

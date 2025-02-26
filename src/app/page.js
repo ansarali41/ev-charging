@@ -34,23 +34,23 @@ export default function Home() {
                     </div>
 
                     {/* Feature section */}
-                    <div className="mx-auto max-w-7xl sm:mt-24 text-gray-700 pb-16">
+                    <div className="mx-auto max-w-7xl sm:mt-24 text-gray-900 pb-16">
                         <div className="grid lg:max-w-5xl lg:w-full lg:grid-cols-3 lg:text-left mx-auto place-items-center gap-8 px-4 mb-16">
-                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
+                            <div className="group rounded-lg border border-gray-200 px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Smart Booking <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>
                                 <p className="m-0 text-sm opacity-50 mx-auto">Book your charging slots with just a few clicks.</p>
                             </div>
 
-                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
+                            <div className="group rounded-lg border border-gray-200 px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Compare Schemes <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>
                                 <p className="m-0 text-sm opacity-50 mx-auto">Compare different charging schemes and find the best fit.</p>
                             </div>
 
-                            <div className="group rounded-lg border border-transparent px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
+                            <div className="group rounded-lg border border-gray-200 px-6 py-5 transition-colors hover:border-gray-300 hover:bg-gray-100 text-center w-full max-w-sm">
                                 <h2 className="mb-3 text-2xl font-semibold">
                                     Profile Management <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">→</span>
                                 </h2>

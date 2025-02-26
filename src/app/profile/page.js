@@ -162,10 +162,10 @@ export default function Profile() {
         <div className="py-8 sm:py-8">
             <Toaster position="top-right" />
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl">
+                <div className="mx-auto max-w-2xl mt-12">
                     <h2 className="text-base font-semibold leading-6 text-blue-600">Profile</h2>
 
-                    <p className="mt-6 text-lg leading-6 text-gray-600">Manage your personal and vehicle information.</p>
+                    <p className="mt-2 text-lg leading-6 text-gray-600">Manage your personal and vehicle information.</p>
 
                     <div className="mt-16">
                         {/* Form */}

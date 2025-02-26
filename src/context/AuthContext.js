@@ -32,18 +32,19 @@ export const AuthContextProvider = ({ children }) => {
                     throw new Error('Firebase Auth is not properly initialized');
                 }
 
-                unsubscribe = onAuthStateChanged(auth,
-                    (user) => {
+                unsubscribe = onAuthStateChanged(
+                    auth,
+                    user => {
                         setUser(user);
                         setLoading(false);
                         setAuthInitialized(true);
                     },
-                    (error) => {
+                    error => {
                         console.error('Auth state change error:', error);
                         setError(error.message);
                         setLoading(false);
                         setAuthInitialized(true);
-                    }
+                    },
                 );
             } catch (error) {
                 console.error('Auth initialization error:', error);
@@ -77,7 +78,7 @@ export const AuthContextProvider = ({ children }) => {
             return result;
         } catch (error) {
             console.error('Error signing in with Google:', error);
-            
+
             // Enhanced error handling
             switch (error.code) {
                 case 'auth/configuration-not-found':
@@ -112,11 +113,11 @@ export const AuthContextProvider = ({ children }) => {
         try {
             setLoading(true);
             setError(null);
-            
+
             if (!auth) {
                 throw new Error('Authentication service is not properly configured');
             }
-            
+
             await signOut(auth);
             setUser(null);
         } catch (error) {
@@ -130,7 +131,7 @@ export const AuthContextProvider = ({ children }) => {
     const clearError = () => setError(null);
 
     return (
-        <AuthContext.Provider 
+        <AuthContext.Provider
             value={{
                 user,
                 loading,
@@ -138,7 +139,7 @@ export const AuthContextProvider = ({ children }) => {
                 clearError,
                 googleSignIn,
                 logout,
-                authInitialized
+                authInitialized,
             }}
         >
             {children}
