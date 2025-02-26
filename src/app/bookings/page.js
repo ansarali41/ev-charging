@@ -121,10 +121,10 @@ export default function Bookings() {
                                 <>
                                     {/* Mobile view */}
                                     <div className="block sm:hidden space-y-4">
-                                        {currentBookings.map(booking => (
+                                        {currentBookings.map((booking, index) => (
                                             <div key={booking.id} className="bg-white rounded-lg shadow p-4 border border-gray-200">
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <h3 className="font-medium text-gray-900">{booking.stationName}</h3>
+                                                    <h3 className="font-medium text-gray-900">Booking #{startIndex + index + 1}</h3>
                                                     <button onClick={() => handleCancelClick(booking)} className="text-sm text-red-600 hover:text-red-900 font-medium">
                                                         Cancel
                                                     </button>
@@ -143,7 +143,7 @@ export default function Bookings() {
                                             <thead>
                                                 <tr>
                                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                                                        Station Name
+                                                        No.
                                                     </th>
                                                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                                         Booking Time
@@ -157,9 +157,9 @@ export default function Bookings() {
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200">
-                                                {currentBookings.map(booking => (
+                                                {currentBookings.map((booking, index) => (
                                                     <tr key={booking.id}>
-                                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{booking.stationName}</td>
+                                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">#{startIndex + index + 1}</td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatBookingDateTime(booking.date, booking.time)}</td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{booking.duration} minutes</td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

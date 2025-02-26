@@ -91,8 +91,7 @@ export default function Booking() {
                 date: formattedDate,
                 time: selectedTime,
                 createdAt: serverTimestamp(),
-                duration: 30, // 30 minutes slot
-                stationName: 'EV Charging Station 1', // Default station name
+                duration: 30 // 30 minutes slot
             });
 
             toast.success('Booking successful!', { id: toastId });
